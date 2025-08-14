@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Google AI Chat</title>
+
+</head>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #cafeff;
+        margin: 0;
+        padding: 0;
+    }
+
+    h1 {
+        color: #333;
+        margin-top: 20px;
+    }
+
+    #conversation {
+        list-style-type: none;
+        padding: 0;
+        margin: 20px auto;
+        max-width: 500px;
+    }
+
+    h3, h4 {
+        max-width: 500px;
+        border-radius: 5px;
+    }
+
+    h3 {
+        background-color: #e3f2fd;
+    }
+
+    h4 {
+        background-color: #ffebee;
+    }
+
+    input {
+        padding: 10px;
+        width: 300px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-top: 10px;
+    }
+
+    button {
+        padding: 10px 15px;
+        margin-top: 10px;
+        background-color: #4285f4;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        margin-left: 5px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #3367d6;
+    }
+
+    center {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+</style>
+    <center>
+        <h1>Google AI Chat</h1>
+        <ul id="conversation">
+
+        </ul>
+        <input type="text" id="prompt" placeholder="Prompt here">
+        <button id="send" onclick="sendMsg()">Send</button>
+    </center>
+</body>
+    <script>
+        // import { GoogleGenerativeLiveAI } from "https://esm.run/@google/generative-ai";
+        // const API_KEY = ""
+        // const gemini = new GoogleGenerativeLiveAI(API_KEY)
+        const promptNode = document.getElementById('prompt')
+        const chatListNode = document.getElementById('conversation')
+        const sendButtonNode = document.getElementById('send')
+
+        function sendMsg() {
+            let msgElement = document.createElement("h3")
+            msgElement.style.color = '#ffffff' // white text
+            msgElement.style.backgroundColor = '#1565c0' // dark blue background
+            msgElement.style.margin = '10px'
+            msgElement.style.padding = '10px'
+            msgElement.style.border = '1px solid #ccc'
+            msgElement.innerHTML = promptNode.value
+            console.log(promptNode.value)
+            chatListNode.appendChild(msgElement)
+
+            const myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+            myHeaders.append("X-goog-api-key", "AIzaSyCLTHzpeXKj2Wm9ixUT5bNazkne-wJTxuI");
+
+            const raw = JSON.stringify({
+                "contents": [
+                    {
+                        "parts": [
+                            {
+                                "text": promptNode.value
+                            }
+                        ]
+                    }
+                ]
+            });
+
+            const requestOptions = {
+                method: "POST",
+                headers: myHeaders,
+                body: raw,
+                redirect: "follow"
+            };
+
+            fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent", requestOptions)
+                .then((response) => response.json())
+                .then((result) => {
+                    console.log(result)
+                    let botAns = document.createElement('h4')
+                    botAns.style.color = "#c2185b"
+                    botAns.style.backgroundColor = "#ffe4e1";
+                    botAns.style.margin = '10px'
+                    botAns.style.padding = '10px'
+                    botAns.style.border = '1px solid #ccc'
+                    botAns.innerHTML = result.candidates[0].content.parts[0].text
+
+                    chatListNode.appendChild(botAns)
+                })
+                .catch((error) => console.error(error));
+        }
+    </script>
+
+
+</html>
