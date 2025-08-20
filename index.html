@@ -9,34 +9,55 @@
 <style>
     body {
         font-family: Arial, sans-serif;
-        background-color: #cafeff;
+        background-color: #0a273b;
         margin: 0;
         padding: 0;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
     }
 
     h1 {
-        color: #333;
+        color: #ffffff;
         margin-top: 20px;
+        text-align: center;
+        padding: 18px 25px;
+        background: #3c7879;
+        margin: 20px auto;
+        border-radius: 30px;
+        font-size: 32px; 
+        font-weight: 700;
+        letter-spacing: 1px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+        font-family: 'Montserrat';
     }
 
     #conversation {
         list-style-type: none;
-        padding: 0;
+        padding: 20px;
         margin: 20px auto;
         max-width: 500px;
+        flex: 1;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
     }
 
-    h3, h4 {
-        max-width: 500px;
-        border-radius: 5px;
+       .msg {
+      max-width: 70%;
+      padding: 12px 15px;
+      border-radius: 15px;
+      font-size: 15px;
+      line-height: 1.4;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
-    h3 {
-        background-color: #e3f2fd;
-    }
-
-    h4 {
-        background-color: #ffebee;
+    .input-area {
+      display: flex;
+      padding: 10px;
+      background: #fff;
+      border-top: 1px solid #ddd;
     }
 
     input {
@@ -50,7 +71,7 @@
     button {
         padding: 10px 15px;
         margin-top: 10px;
-        background-color: #4285f4;
+        background-color: #3c7879;
         color: white;
         border: none;
         border-radius: 5px;
@@ -59,7 +80,7 @@
     }
 
     button:hover {
-        background-color: #3367d6;
+        background-color: #275d5d;
     }
 
     center {
@@ -87,11 +108,12 @@
 
         function sendMsg() {
             let msgElement = document.createElement("h3")
-            msgElement.style.color = '#ffffff' // white text
-            msgElement.style.backgroundColor = '#1565c0' // dark blue background
+            msgElement.style.color = '#ffffff'
+            msgElement.style.backgroundColor = '#23637A'
             msgElement.style.margin = '10px'
             msgElement.style.padding = '10px'
             msgElement.style.border = '1px solid #ccc'
+            msgElement.style.borderRadius = '10px'
             msgElement.innerHTML = promptNode.value
             console.log(promptNode.value)
             chatListNode.appendChild(msgElement)
@@ -124,11 +146,12 @@
                 .then((result) => {
                     console.log(result)
                     let botAns = document.createElement('h4')
-                    botAns.style.color = "#c2185b"
-                    botAns.style.backgroundColor = "#ffe4e1";
+                    botAns.style.color = "#1b262c"
+                    botAns.style.backgroundColor = "#bbe1fa";
                     botAns.style.margin = '10px'
                     botAns.style.padding = '10px'
                     botAns.style.border = '1px solid #ccc'
+                    botAns.style.borderRadius = '10px'
                     botAns.innerHTML = result.candidates[0].content.parts[0].text
 
                     chatListNode.appendChild(botAns)
